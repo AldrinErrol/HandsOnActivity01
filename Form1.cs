@@ -11,43 +11,64 @@ using System.Text.RegularExpressions;
 
 namespace OrganizationProfile
 {
-    public partial class Form1 : Form{
+    public partial class Form1 : Form
+    {
+        private String _FullName;
+        private int _Age;
+        private long _ContactNo;
+        private long _StudentNo;
         public long StudentNumber(string studNum)
         {
 
-            StudentNumber = long.Parse(studNum);
+            _StudentNo = long.Parse(studNum);
 
-            return StudentNumber;
+            return _StudentNo;
         }
 
         public long ContactNo(string Contact)
         {
             if (Regex.IsMatch(Contact, @"^[0-9]{10,11}$"))
             {
-                ContactNo = long.Parse(Contact);
+                _ContactNo = long.Parse(Contact);
             }
-
-            return ContactNo;
+            else
+            {
+                throw new FormatException();
+                throw new ArgumentNullException();
+                throw new OverflowException();
+                throw new IndexOutOfRangeException();
+            }
+            return _ContactNo;
         }
 
         public string FullName(string LastName, string FirstName, string MiddleInitial)
         {
             if (Regex.IsMatch(LastName, @"^[a-zA-Z]+$") || Regex.IsMatch(FirstName, @"^[a-zA-Z]+$") || Regex.IsMatch(MiddleInitial, @"^[a-zA-Z]+$"))
             {
-                FullName = LastName + ", " + FirstName + ", " + MiddleInitial;
+                _FullName = LastName + ", " + FirstName + ", " + MiddleInitial;
             }
-
-            return FullName;
+            else
+            {
+                throw new ArgumentNullException();
+            }
+            return _FullName;
         }
 
         public int Age(string age)
         {
             if (Regex.IsMatch(age, @"^[0-9]{1,3}$"))
             {
-                Age = Int32.Parse(age);
+                _Age = Int32.Parse(age);
+            }
+            else
+            {
+                throw new FormatException();
+                throw new ArgumentNullException();
+                throw new OverflowException();
+                throw new IndexOutOfRangeException();
             }
 
-            return Age;
+            return _Age;
         }
 
 
@@ -71,9 +92,60 @@ namespace OrganizationProfile
 };
             for (int i = 0; i < 6; i++)
             {
-                Program.Item.Add(ListOfProgram[i].ToString());
+                cbPrograms.Items.Add(ListOfProgram[i].ToString());
+            }
+            string[] Gender = new string[]
+            {
+                "Female" , "Male"
+            };
+            for (int i = 0; i < 2; i++)
+            {
+                cbGender.Items.Add(Gender[i].ToString());
             }
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                StudentInformationClass.SetFullName = FullName(txtLastname.Text, txtFirstname.Text, txtMiddleInitial.Text);
+                StudentInformationClass.SetStudentNo = StudentNumber(txtStudentNo.Text);
+                StudentInformationClass.SetProgram = cbPrograms.Text;
+                StudentInformationClass.SetGender = cbGender.Text;
+                StudentInformationClass.SetContactNo = ContactNo(txtContactNo.Text);
+                StudentInformationClass.SetAge = Age(txtAge.Text);
+                StudentInformationClass.SetBirthday = datePickerBirthday.Value.ToString("yyyy-MM-dd");
+
+                frmConfirmation frm = new frmConfirmation();
+                frm.ShowDialog();
+            }
+            catch (FormatException fe)
+            {
+                MessageBox.Show(fe.Message);
+            }
+            catch (ArgumentNullException ae)
+            {
+                MessageBox.Show(ae.Message);
+            }
+            catch (OverflowException oe)
+            {
+                MessageBox.Show(oe.Message);
+            }
+            catch (IndexOutOfRangeException ie)
+            {
+                MessageBox.Show(ie.Message);
+            }
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtContactNo_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
- }
+}
 

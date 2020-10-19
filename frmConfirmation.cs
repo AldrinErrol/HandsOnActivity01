@@ -34,28 +34,19 @@ namespace OrganizationProfile
 
         private void button1_Click(object sender, EventArgs e)
         {
-            StudentInformationClass.SetFullName = FullName(txtLastName.Text, txtFirstName.Text, txtMiddleInitial.Text);
-            StudentInformationClass.SetStudentNo = StudentNumber(txtStudentNo.Text);
-            StudentInformationClass.SetProgram = cbProgram.Text;
-            StudentInformationClass.SetGender = cbGender.Text;
-            StudentInformationClass.SetContactNo = ContactNo(txtContactNo.Text);
-            StudentInformationClass.SetAge = Age(txtAge.Text);
-            StudentInformationClass.SetBirthday = datePickerBirthday.Value.ToString("yyyy-MM--dd");
-
-            frmConfirmation frm = new frmConfirmation();
-            frm.ShowDialog();
+            MessageBox.Show("You finally registered");
 
         }
 
         private void frmConfirmation_Load(object sender, EventArgs e)
         {
             lblStudentNo.Text = StudentInformationClass.SetStudentNo.ToString();
-            lblName.Text = StudentInformationClass.SetFullName;
             lblProgram.Text = StudentInformationClass.SetProgram;
+            lblName.Text = StudentInformationClass.SetFullName;
             lblBirthday.Text = StudentInformationClass.SetBirthday;
             lblGender.Text = StudentInformationClass.SetGender;
-            lblContactNo.Text = StudentInformationClass.SetContactNo.ToString();
             lblAge.Text = StudentInformationClass.SetAge.ToString();
+            lblContactNo.Text = StudentInformationClass.SetContactNo.ToString();
 
 
 
